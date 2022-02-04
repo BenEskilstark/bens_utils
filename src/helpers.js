@@ -4,11 +4,6 @@ const {subtract, vectorTheta} = require('./vectors');
 
 import type {Vector} from '../types';
 
-
-const clamp = (val: number, min: number, max: number): number => {
-  return Math.min(Math.max(val, min), max);
-}
-
 // NOTE: for angles in radians being close to each other!
 const closeTo = (a, b): boolean => {
   const normalizedA = a % (2*Math.PI);
@@ -113,41 +108,11 @@ function deepCopy(obj) {
   return copy;
 }
 
-function isIpad() {
-  return navigator.platform == 'MacIntel'
-    && navigator.maxTouchPoints > 0
-    && !navigator.userAgent.match(/iPhone/i);
-}
-
-function isMobile() {
-  const toMatch = [
-      /Android/i,
-      /webOS/i,
-      /iPhone/i,
-      /iPad/i,
-      /iPod/i,
-      /BlackBerry/i,
-      /Windows Phone/i
-  ];
-
-  return toMatch.some((toMatchItem) => {
-      return navigator.userAgent.match(toMatchItem);
-  }) || isIpad();
-}
-
-// HACK: when we're in electron window.require is a function
-function isElectron() {
-  // return true;
-  return window.require != null;
-}
-
 module.exports = {
-	clamp, closeTo, sameArray, thetaToDir,
+	closeTo, sameArray, thetaToDir,
   isDiagonalTheta, isDiagonalMove,
   encodePosition, decodePosition,
   getDisplayTime,
-  isMobile, isIpad,
   deepCopy,
   throttle,
-  isElectron,
 };
