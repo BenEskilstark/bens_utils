@@ -1,12 +1,10 @@
 // @flow
 
-const globalConfig = require('../config');
-const {thetaToDir, clamp} = require('../utils/helpers');
+const {thetaToDir} = require('./helpers');
+const {clamp} = require('./math');
 const {
   add, multiply, subtract, equals, floor, containsVector
-} = require('../utils/vectors');
-
-import type {Grid, Game, Vector, EntityID, PheromoneType} from '../types';
+} = require('./vectors');
 
 const initGrid = (gridWidth: number, gridHeight: number, numPlayers: number): Grid => {
   const grid = [];
@@ -18,9 +16,10 @@ const initGrid = (gridWidth: number, gridHeight: number, numPlayers: number): Gr
       };
       for (let i = 0; i < numPlayers; i++) {
         cell[i+1] = {};
-        for (const pheromoneType of globalConfig.config.pheromoneTypes) {
-          cell[i+1][pheromoneType] = 0;
-        }
+        // pheromones:
+        // for (const pheromoneType of config.pheromoneTypes) {
+        //   cell[i+1][pheromoneType] = 0;
+        // }
       }
       col.push(cell);
     }
@@ -83,8 +82,10 @@ const deleteFromCell = (grid: Grid, position: Vector, entityID: EntityID): boole
   return oldLength != grid[x][y].entities.length;
 }
 
-const canvasToGrid = (game: GameState, canvasPos: Vector): Vector => {
-  const config = globalConfig.config;
+const canvasToGrid = (
+  game: GameState, canvasPos: Vector, canvasSize,
+): Vector => {
+  const {width: canvasWidth, height: canvasHeight} = canvasSize;
 
   let {viewPos, viewWidth, viewHeight} = game;
 
@@ -109,8 +110,8 @@ const canvasToGrid = (game: GameState, canvasPos: Vector): Vector => {
   }
 
   const scaleVec = {
-    x: viewWidth / config.canvasWidth,
-    y: viewHeight / config.canvasHeight,
+    x: viewWidth / canvasWidth,
+    y: viewHeight / canvasHeight,
   };
 
   const gridCoord = floor(

@@ -2,19 +2,19 @@
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-var globalConfig = require('../config');
+var _require = require('./helpers'),
+    thetaToDir = _require.thetaToDir;
 
-var _require = require('../utils/helpers'),
-    thetaToDir = _require.thetaToDir,
-    clamp = _require.clamp;
+var _require2 = require('./math'),
+    clamp = _require2.clamp;
 
-var _require2 = require('../utils/vectors'),
-    add = _require2.add,
-    multiply = _require2.multiply,
-    subtract = _require2.subtract,
-    equals = _require2.equals,
-    floor = _require2.floor,
-    containsVector = _require2.containsVector;
+var _require3 = require('./vectors'),
+    add = _require3.add,
+    multiply = _require3.multiply,
+    subtract = _require3.subtract,
+    equals = _require3.equals,
+    floor = _require3.floor,
+    containsVector = _require3.containsVector;
 
 var initGrid = function initGrid(gridWidth, gridHeight, numPlayers) {
   var grid = [];
@@ -26,30 +26,10 @@ var initGrid = function initGrid(gridWidth, gridHeight, numPlayers) {
       };
       for (var i = 0; i < numPlayers; i++) {
         cell[i + 1] = {};
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-          for (var _iterator = globalConfig.config.pheromoneTypes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var pheromoneType = _step.value;
-
-            cell[i + 1][pheromoneType] = 0;
-          }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion && _iterator.return) {
-              _iterator.return();
-            }
-          } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
-          }
-        }
+        // pheromones:
+        // for (const pheromoneType of config.pheromoneTypes) {
+        //   cell[i+1][pheromoneType] = 0;
+        // }
       }
       col.push(cell);
     }
@@ -111,9 +91,9 @@ var deleteFromCell = function deleteFromCell(grid, position, entityID) {
   return oldLength != grid[x][y].entities.length;
 };
 
-var canvasToGrid = function canvasToGrid(game, canvasPos) {
-  var config = globalConfig.config;
-
+var canvasToGrid = function canvasToGrid(game, canvasPos, canvasSize) {
+  var canvasWidth = canvasSize.width,
+      canvasHeight = canvasSize.height;
   var viewPos = game.viewPos,
       viewWidth = game.viewWidth,
       viewHeight = game.viewHeight;
@@ -140,8 +120,8 @@ var canvasToGrid = function canvasToGrid(game, canvasPos) {
   }
 
   var scaleVec = {
-    x: viewWidth / config.canvasWidth,
-    y: viewHeight / config.canvasHeight
+    x: viewWidth / canvasWidth,
+    y: viewHeight / canvasHeight
   };
 
   var gridCoord = floor(add({ x: viewPos.x, y: viewPos.y }, multiply(canvasPos, scaleVec)));

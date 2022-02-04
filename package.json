@@ -1,6 +1,6 @@
 {
   "name": "bens_utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Bens utility functions",
   "main": "index.js",
   "scripts": {
