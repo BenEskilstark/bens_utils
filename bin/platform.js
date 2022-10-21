@@ -12,6 +12,10 @@ function isMobile() {
   }) || isIpad();
 }
 
+function isPhone() {
+  return isMobile() && !isIpad();
+}
+
 // HACK: when we're in electron window.require is a function
 function isElectron() {
   // return true;
@@ -21,5 +25,6 @@ function isElectron() {
 module.exports = {
   isElectron: isElectron,
   isIpad: isIpad,
-  isMobile: isMobile
+  isMobile: isMobile,
+  isPhone: isPhone
 };
