@@ -92,6 +92,23 @@ var throttle = function throttle(func, args, wait) {
   };
 };
 
+var debounce = function debounce(func, delay) {
+  var timerID = null;
+  return function () {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    if (timerID) {
+      clearTimeout(timerID);
+    }
+    timerID = setTimeout(function () {
+      func.apply.apply(func, args);
+      timerID = null;
+    }, delay);
+  };
+};
+
 function deepCopy(obj) {
   if ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object' || obj == null) {
     return obj;
@@ -142,5 +159,5 @@ module.exports = {
   encodePosition: encodePosition, decodePosition: decodePosition,
   getDisplayTime: getDisplayTime,
   deepCopy: deepCopy,
-  throttle: throttle
+  throttle: throttle, debounce: debounce
 };

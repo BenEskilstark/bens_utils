@@ -85,6 +85,19 @@ const throttle = (func, args, wait) => {
   }
 }
 
+const debounce = (func, delay) => {
+  let timerID = null;
+  return (...args) => {
+    if (timerID) {
+      clearTimeout(timerID);
+    }
+    timerID = setTimeout(() => {
+      func.apply(...args);
+      timerID = null;
+    }, delay);
+  };
+};
+
 function deepCopy(obj) {
   if (typeof obj !== 'object' || obj == null) {
     return obj;
@@ -114,5 +127,5 @@ module.exports = {
   encodePosition, decodePosition,
   getDisplayTime,
   deepCopy,
-  throttle,
+  throttle, debounce,
 };
