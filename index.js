@@ -6,4 +6,5 @@ module.exports = {
   grid: require('./bin/gridHelpers'),
   platform: require('./bin/platform'),
   math: require('./bin/math'),
+  url: require('./bin/url'),
 }

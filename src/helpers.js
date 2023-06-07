@@ -85,14 +85,14 @@ const throttle = (func, args, wait) => {
   }
 }
 
-const debounce = (func, delay) => {
+const debounce = (func, delay = 300) => {
   let timerID = null;
   return (...args) => {
     if (timerID) {
       clearTimeout(timerID);
     }
     timerID = setTimeout(() => {
-      func.apply(...args);
+      func.apply(this, args);
       timerID = null;
     }, delay);
   };

@@ -92,7 +92,9 @@ var throttle = function throttle(func, args, wait) {
   };
 };
 
-var debounce = function debounce(func, delay) {
+var debounce = function debounce(func) {
+  var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 300;
+
   var timerID = null;
   return function () {
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
@@ -103,7 +105,7 @@ var debounce = function debounce(func, delay) {
       clearTimeout(timerID);
     }
     timerID = setTimeout(function () {
-      func.apply.apply(func, args);
+      func.apply(undefined, args);
       timerID = null;
     }, delay);
   };
